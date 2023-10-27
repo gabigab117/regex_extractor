@@ -47,19 +47,25 @@ class Extractor:
         max_number = len(max(self.extract_phone_number(), key=len))
         max_mail = len(max(self.extract_mail(), key=len))
         space = " "
+        tiret = "-"
+        limite = f"|-{tiret*max_name}-|-{tiret*max_mail}-|-{tiret*max_number}-|"
         name_head = "Nom & Prénom"
         number_head = "Numéro"
         email_head = "Mail"
 
         # names = str([f"| {name}" for name in data["name"]]).replace(",", "").replace("[", "").replace("]", "").replace("'", '')
         names = [f"| {name}{space*(max_name-len(name))} |" for name in data["name"]]
-        numbers = [f"| {number}{space*(max_number-len(number))} |" for number in data["phone"]]
-        emails = [f"| {email}{space*(max_mail-len(email))} |" for email in data["email"]]
+        numbers = [f"{number}{space*(max_number-len(number))} |" for number in data["phone"]]
+        emails = [f"{email}{space*(max_mail-len(email))} |" for email in data["email"]]
 
-        print(f"| {name_head}{space*(max_name-len(name_head))} | | {number_head}{space*(max_number-len(number_head))} | | {email_head}{space*(max_mail-len(email_head))}")
+        print(f"| {name_head: ^{max_name}} | {email_head: ^{max_mail}} | {number_head: ^{max_number}} |")
+        print(limite)
 
-        for el1, el2, el3 in zip(names, numbers, emails):
+        for el1, el2, el3 in zip(names, emails, numbers):
             print(el1, 
                   el2, 
                   el3)
+        print(limite)
+        
+        return ""
     
