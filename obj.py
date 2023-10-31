@@ -1,4 +1,4 @@
-import re
+from re import compile
 
 
 class Extractor:
@@ -10,12 +10,12 @@ class Extractor:
             return f.read()
         
     def extract_mail(self):
-        regex_pattern = re.compile(r'[\w\.]+@\w+\.\w{2,}')
+        regex_pattern = compile(r'[\w\.]+@\w+\.\w{2,}')
         return regex_pattern.findall(self.data)
     
     def extract_phone_number(self):
         # Commence par un digit, peut avoir des espaces et . et se termine par un digit
-        regex_pattern = re.compile(r'\d[\d\s\.]+\d')
+        regex_pattern = compile(r'\d[\d\s\.]+\d')
         number_list = [numbers.replace(" ", "").replace(".", "") for numbers in regex_pattern.findall(self.data)]
 
         list_formated = []
@@ -33,7 +33,7 @@ class Extractor:
     def extract_name(self):
         # 1ere parenthèse globale c'est ce qu'on récupère (2 mots) groupe et extract
         # 2eme parenthèse est un groupe mais pas une extract 2 parenthèse 2 résultats. Donc éliminer
-        regex_pattern = re.compile(r'(?:Madame|monsieur|M.|Mlle|Dr|mademoiselle|Mme)\s((?:[A-Z]\w+\s?){2})')
+        regex_pattern = compile(r'(?:Madame|monsieur|M.|Mlle|Dr|mademoiselle|Mme)\s((?:[A-Z]\w+\s?){2})')
         return regex_pattern.findall(self.data)
     
     def all_data(self):
