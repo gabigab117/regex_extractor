@@ -4,6 +4,7 @@ from re import compile
 class Extractor:
     def __init__(self, file):
         self.data = self.__open_file(file)
+        self.all_data = {"name": self.extract_name(), "phone": self.extract_phone_number(), "email": self.extract_mail()}
     
     def __open_file(self, file):
         with open(file, "r") as f:
@@ -36,12 +37,7 @@ class Extractor:
         regex_pattern = compile(r'(?:Madame|monsieur|M.|Mlle|Dr|mademoiselle|Mme)\s((?:[A-Z]\w+\s?){2})')
         return regex_pattern.findall(self.data)
     
-    def all_data(self):
-        return {"name": self.extract_name(), "phone": self.extract_phone_number(), "email": self.extract_mail()}
-    
     def print_data(self):
-        data = self.all_data()
-
         # Valeur Max de chaque élément
         max_name = len(max(self.extract_name(), key=len))
         max_number = len(max(self.extract_phone_number(), key=len))
@@ -54,9 +50,9 @@ class Extractor:
         email_head = "Mail"
 
         # names = str([f"| {name}" for name in data["name"]]).replace(",", "").replace("[", "").replace("]", "").replace("'", '')
-        names = [f"| {name}{space*(max_name-len(name))} |" for name in data["name"]]
-        numbers = [f"{number}{space*(max_number-len(number))} |" for number in data["phone"]]
-        emails = [f"{email}{space*(max_mail-len(email))} |" for email in data["email"]]
+        names = [f"| {name}{space*(max_name-len(name))} |" for name in self.all_data["name"]]
+        numbers = [f"{number}{space*(max_number-len(number))} |" for number in self.all_data["phone"]]
+        emails = [f"{email}{space*(max_mail-len(email))} |" for email in self.all_data["email"]]
 
         print(f"| {name_head: ^{max_name}} | {email_head: ^{max_mail}} | {number_head: ^{max_number}} |")
         print(limite)
@@ -68,4 +64,5 @@ class Extractor:
         print(limite)
         
         return ""
+    # Utiliser __str__ en ajoutant dans une liste et \n.join
     

@@ -8,3 +8,5 @@ names = extractor.extract_name()
 
 
 print(extractor.print_data())
+
+# https://discord.com/channels/396825382009044994/1165200377801617488
